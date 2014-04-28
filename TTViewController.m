@@ -278,6 +278,7 @@
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
         [tableView endUpdates];
+        
     } if (editingStyle == UITableViewCellEditingStyleInsert) {
         
         TTGroup *group = [self.groupArray objectAtIndex:indexPath.section];
