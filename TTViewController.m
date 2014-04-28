@@ -278,11 +278,37 @@
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
         [tableView endUpdates];
+    } if (editingStyle == UITableViewCellEditingStyleInsert) {
+        
+        TTGroup *group = [self.groupArray objectAtIndex:indexPath.section];
+        NSMutableArray *students = [NSMutableArray arrayWithArray:group.studentArray];
+        TTStudent *std = [TTStudent getRandomStudent];
+        NSUInteger insertIndex = 0;
+        [students insertObject:std atIndex:insertIndex];
+        
+        group.studentArray = students;
+        
+        [self.tableView beginUpdates];
+        
+        NSIndexPath *index = [NSIndexPath indexPathForRow:insertIndex + 1 inSection:indexPath.section];
+        
+        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:index] withRowAnimation:UITableViewRowAnimationMiddle];
+        
+        [self.tableView endUpdates];
+
     }
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return indexPath.row > 0;
+    return YES;
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0) {
+        return UITableViewCellEditingStyleInsert;
+    } else {
+        return UITableViewCellEditingStyleDelete;
+    }
 }
 
 #pragma mark - UITableViewDelegate
